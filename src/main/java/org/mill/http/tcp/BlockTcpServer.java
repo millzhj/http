@@ -14,7 +14,7 @@ public class BlockTcpServer {
 	private AtomicInteger treadNum = new AtomicInteger(1);
 
 	public void start() {
-		threadPool = Executors.newCachedThreadPool(new ThreadFactory() {
+		threadPool = Executors.newFixedThreadPool(10, new ThreadFactory() {
 
 			public Thread newThread(Runnable r) {
 				Thread t = new Thread(r, "Block-Thread-" + treadNum.getAndIncrement());
@@ -38,5 +38,19 @@ public class BlockTcpServer {
 
 			}
 		}
+
+	}
+
+	public static void main(String[] args) {
+
+		new Thread(new Runnable() {
+
+			public void run() {
+				BlockTcpServer server = new BlockTcpServer();
+				server.start();
+
+			}
+		}).start();
+		System.out.println("server is starting ....");
 	}
 }

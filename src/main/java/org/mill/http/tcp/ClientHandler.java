@@ -25,12 +25,14 @@ public class ClientHandler implements Runnable {
 			while ((size = in.read(buffer)) != -1) {
 				sb.append(new String(buffer, 0, size));
 			}
-			System.out.println("received:" + sb.toString());
+			System.out.println(Thread.currentThread().getName() + " received:" + sb.toString());
+			Thread.sleep(2000);
 			in.close();
 		} catch (Exception e) {
 		} finally {
 			try {
 				in.close();
+				socket.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
