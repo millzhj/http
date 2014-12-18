@@ -29,6 +29,14 @@ public class HttpServer {
 				Response response = new Response(out);
 				response.setRequest(request);
 				response.sendStaticResource();
+				// 增加处理servlet逻辑
+				if (request.getUri().startsWith("/servlet")) {
+					ServletProcesser processer = new ServletProcesser();
+					processer.process(request, response);
+				} else {
+					StaticResourceProcesser processer = new StaticResourceProcesser();
+					processer.process(request, response);
+				}
 				socket.close();
 				shutdown = request.getUri().equalsIgnoreCase(SHUTDOWN_COMMAND);
 			}
